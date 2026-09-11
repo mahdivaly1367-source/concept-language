@@ -1,0 +1,23 @@
+﻿.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+
+.vscode/
+.idea/
+*.log
+
+# Generated results
+results/
+
+# Large/local corpus copy
+data/external/
+
+# Generated web visualization
+public/index.html
+
+# OS files
+.DS_Store
+Thumbs.db
