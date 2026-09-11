@@ -16,7 +16,6 @@ results/
 data/external/
 
 # Generated web visualization
-public/index.html
 
 # OS files
 .DS_Store
