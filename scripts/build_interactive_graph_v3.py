@@ -126,7 +126,7 @@ def build_html(rows, edges, sentence_count):
 <meta charset="utf-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Concept Language Lab â€” V3</title>
+<title>Concept Language Lab — V3</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Tahoma,Arial,sans-serif;background:#f5f7fb;color:#1f2937}
 header{background:#111827;color:#fff;padding:16px 20px}header h1{margin:0 0 4px;font-size:20px}header div{color:#cbd5e1;font-size:12px}
@@ -142,16 +142,16 @@ h3,h4{margin:6px 0 8px}ul{padding-right:20px}
 </style>
 </head>
 <body>
-<header><h1>Concept Language Lab â€” Interactive Graph V3</h1><div>UTF-8 Â· lemma/form Â· dependency relations Â· sentence evidence</div></header>
+<header><h1>Concept Language Lab — Interactive Graph V3</h1><div>UTF-8 · lemma/form · dependency relations · sentence evidence</div></header>
 <main>
 <aside>
-<h3>Ø¬Ø³Øªâ€ŒÙˆØ¬ÙˆÛŒ ÙˆØ§Ú˜Ù‡</h3>
-<input id="query" placeholder="ÙˆØ§Ú˜Ù‡ ÛŒØ§ lemma..." oninput="renderMatches()">
+<h3>جست‌وجوی واژه</h3>
+<input id="query" placeholder="واژه یا lemma..." oninput="renderMatches()">
 <select id="upos" onchange="renderMatches()">
-<option value="">Ù‡Ù…Ù‡Ù” Ù†Ù‚Ø´â€ŒÙ‡Ø§</option><option value="NOUN">NOUN</option><option value="VERB">VERB</option><option value="ADJ">ADJ</option><option value="ADV">ADV</option><option value="PRON">PRON</option><option value="PROPN">PROPN</option><option value="DET">DET</option><option value="ADP">ADP</option><option value="NUM">NUM</option><option value="CONJ">CONJ</option>
+<option value="">همهٔ نقش‌ها</option><option value="NOUN">NOUN</option><option value="VERB">VERB</option><option value="ADJ">ADJ</option><option value="ADV">ADV</option><option value="PRON">PRON</option><option value="PROPN">PROPN</option><option value="DET">DET</option><option value="ADP">ADP</option><option value="NUM">NUM</option><option value="CONJ">CONJ</option>
 </select>
-<button onclick="showSelectedGraph()">Ù†Ù…Ø§ÛŒØ´ Ø´Ø¨Ú©Ù‡Ù” Ø§Ù†ØªØ®Ø§Ø¨â€ŒØ´Ø¯Ù‡</button>
-<button class="secondary" onclick="showStats()">Ø¢Ù…Ø§Ø± Ù¾ÛŒÚ©Ø±Ù‡</button>
+<button onclick="showSelectedGraph()">نمایش شبکهٔ انتخاب‌شده</button>
+<button class="secondary" onclick="showStats()">آمار پیکره</button>
 <div id="matches" class="card"></div><div id="details" class="card"></div>
 </aside>
 <section><div id="canvasWrap"><svg id="networkSvg" viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg"></svg></div></section>
@@ -164,16 +164,16 @@ function norm(s){return String(s||"").trim().toLowerCase();}
 function renderMatches(){
  const q=norm(document.getElementById("query").value), u=document.getElementById("upos").value, box=document.getElementById("matches");
  const hits=DATA.lemmas.filter(r=>(!u||r.upos.some(x=>x[0]===u))&&(!q||norm(r.lemma).includes(q)||r.forms.some(x=>norm(x[0]).includes(q)))).slice(0,50);
- if(!hits.length){box.innerHTML="<div>Ù†ØªÛŒØ¬Ù‡â€ŒØ§ÛŒ Ù¾ÛŒØ¯Ø§ Ù†Ø´Ø¯.</div>";return;}
- box.innerHTML="<b>Ù†ØªØ§ÛŒØ¬</b>"+hits.map(r=>'<div class="card match" onclick="selectLemma('+JSON.stringify(r.lemma)+')"><b>'+esc(r.lemma)+'</b><div class="small">count='+r.count+' Â· forms: '+r.forms.slice(0,4).map(x=>esc(x[0])).join("ØŒ ")+'</div></div>').join("");
+ if(!hits.length){box.innerHTML="<div>نتیجه‌ای پیدا نشد.</div>";return;}
+ box.innerHTML="<b>نتایج</b>"+hits.map(r=>'<div class="card match" onclick="selectLemma('+JSON.stringify(r.lemma)+')"><b>'+esc(r.lemma)+'</b><div class="small">count='+r.count+' · forms: '+r.forms.slice(0,4).map(x=>esc(x[0])).join("، ")+'</div></div>').join("");
 }
 function selectLemma(lemma){
  selectedLemma=lemma;const row=DATA.lemmas.find(x=>x.lemma===lemma);if(!row)return;
  const forms=row.forms.map(x=>'<li>'+esc(x[0])+' <span class="small">('+x[1]+')</span></li>').join("");
  const incoming=row.in_rel.map(x=>'<li><span class="pill">'+esc(x[0])+'</span> '+x[1]+'</li>').join("");
  const outgoing=row.out_rel.map(x=>'<li><span class="pill">'+esc(x[0])+'</span> '+x[1]+'</li>').join("");
- const examples=row.examples.map(e=>'<li><div>'+esc(e.sentence)+'</div><div class="small">'+esc(e.form)+' Â· '+esc(e.relation)+' Â· head='+esc(e.head)+'</div></li>').join("");
- document.getElementById("details").innerHTML='<h3>'+esc(row.lemma)+'</h3><div><b>Ø±Ø®Ø¯Ø§Ø¯:</b> '+row.count+'</div><div><b>UPOS:</b> '+row.upos.map(x=>esc(x[0])+' ('+x[1]+')').join("ØŒ ")+'</div><h4>Ø´Ú©Ù„â€ŒÙ‡Ø§ÛŒ Ø«Ø¨Øªâ€ŒØ´Ø¯Ù‡</h4><ul>'+forms+'</ul><h4>Ø±ÙˆØ§Ø¨Ø· ÙˆØ±ÙˆØ¯ÛŒ</h4><ul>'+(incoming||'<li>â€”</li>')+'</ul><h4>Ø±ÙˆØ§Ø¨Ø· Ø®Ø±ÙˆØ¬ÛŒ</h4><ul>'+(outgoing||'<li>â€”</li>')+'</ul><h4>Ø´Ø§Ù‡Ø¯Ù‡Ø§ÛŒ Ø¬Ù…Ù„Ù‡â€ŒØ§ÛŒ</h4><ul>'+(examples||'<li>â€”</li>')+'</ul>';
+ const examples=row.examples.map(e=>'<li><div>'+esc(e.sentence)+'</div><div class="small">'+esc(e.form)+' · '+esc(e.relation)+' · head='+esc(e.head)+'</div></li>').join("");
+ document.getElementById("details").innerHTML='<h3>'+esc(row.lemma)+'</h3><div><b>رخداد:</b> '+row.count+'</div><div><b>UPOS:</b> '+row.upos.map(x=>esc(x[0])+' ('+x[1]+')').join("، ")+'</div><h4>شکل‌های ثبت‌شده</h4><ul>'+forms+'</ul><h4>روابط ورودی</h4><ul>'+(incoming||'<li>—</li>')+'</ul><h4>روابط خروجی</h4><ul>'+(outgoing||'<li>—</li>')+'</ul><h4>شاهدهای جمله‌ای</h4><ul>'+(examples||'<li>—</li>')+'</ul>';
  showSelectedGraph();
 }
 function neighborhood(seed){
@@ -194,7 +194,7 @@ function drawNetwork(seed,nodes){
  DATA.edges.forEach(e=>{if(!positions[e.source]||!positions[e.target])return;const p1=positions[e.source],p2=positions[e.target];add("line",{x1:p1[0],y1:p1[1],x2:p2[0],y2:p2[1],stroke:"#cbd5e1","stroke-width":1.2,"marker-end":"url(#arrow)"});add("text",{x:(p1[0]+p2[0])/2,y:(p1[1]+p2[1])/2,"text-anchor":"middle",class:"edge-label"},e.relation)});
  nodes.forEach(n=>{if(!positions[n])return;const p=positions[n],sel=n===seed,g=document.createElementNS("http://www.w3.org/2000/svg","g");g.setAttribute("class","node");g.addEventListener("click",()=>selectLemma(n));const c=document.createElementNS("http://www.w3.org/2000/svg","circle");c.setAttribute("cx",p[0]);c.setAttribute("cy",p[1]);c.setAttribute("r",sel?27:17);c.setAttribute("fill",sel?"#fb7185":"#93c5fd");c.setAttribute("stroke","#475569");g.appendChild(c);const t=document.createElementNS("http://www.w3.org/2000/svg","text");t.setAttribute("x",p[0]);t.setAttribute("y",p[1]-24);t.setAttribute("text-anchor","middle");t.setAttribute("font-size",sel?18:14);t.textContent=n;g.appendChild(t);svg.appendChild(g)});
 }
-function showStats(){const total=DATA.lemmas.reduce((a,b)=>a+b.count,0);document.getElementById("details").innerHTML='<h3>Ø¢Ù…Ø§Ø± Ù¾ÛŒÚ©Ø±Ù‡</h3><div>Ø¬Ù…Ù„Ù‡â€ŒÙ‡Ø§: <b>'+DATA.sentences.toLocaleString()+'</b></div><div>lemmaÙ‡Ø§ÛŒ ÛŒÚ©ØªØ§: <b>'+DATA.lemmas.length.toLocaleString()+'</b></div><div>Ø±Ø®Ø¯Ø§Ø¯Ù‡Ø§ÛŒ ÙˆØ§Ú˜Ú¯Ø§Ù†ÛŒ: <b>'+total.toLocaleString()+'</b></div><div>ÛŒØ§Ù„â€ŒÙ‡Ø§ÛŒ Ø±Ø§Ø¨Ø·Ù‡â€ŒØ§ÛŒ: <b>'+DATA.edges.length.toLocaleString()+'</b></div>';}
+function showStats(){const total=DATA.lemmas.reduce((a,b)=>a+b.count,0);document.getElementById("details").innerHTML='<h3>آمار پیکره</h3><div>جمله‌ها: <b>'+DATA.sentences.toLocaleString()+'</b></div><div>lemmaهای یکتا: <b>'+DATA.lemmas.length.toLocaleString()+'</b></div><div>رخدادهای واژگانی: <b>'+total.toLocaleString()+'</b></div><div>یال‌های رابطه‌ای: <b>'+DATA.edges.length.toLocaleString()+'</b></div>';}
 renderMatches();if(selectedLemma)selectLemma(selectedLemma);
 </script>
 </body></html>
